@@ -10,4 +10,8 @@
  - [ ] Search/搜索功能
  - [x] SyntaxHighlight/语法高亮 (only support very limited languages)
  - [ ] Configurable syntax highlight/可配置的语法高亮
- - [ ] 
+
+## How to build
+使用 Visual Studio 2019或更新版本打开解决方案，选择还原nuget包，之后进行编译运行。
+
+## Screenshots:
