@@ -15,3 +15,4 @@
 使用 Visual Studio 2019或更新版本打开解决方案，选择还原nuget包，之后进行编译运行。
 
 ## Screenshots:
+![SCREEN 1](https://github.com/saderickhuang/WPF.NotepadMinus/blob/main/screenshots/scrshot1.png)
