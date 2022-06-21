@@ -1,6 +1,8 @@
 # WPF.NotepadMinus
  A notepad++ replacement ( In progress)
+ 
  一个正在开发中的notepad++替代.
+ 
  Based on WPF,MVVM toolkit and AvalonEdit
  ## Todo
  - [x] Basic File op/基本的文件操作
