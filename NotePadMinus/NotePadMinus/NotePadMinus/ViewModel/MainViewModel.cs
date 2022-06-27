@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
-using NotePadMinus.Model;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,24 +28,24 @@ namespace NotePadMinus.ViewModel
         public ICommand Menu_SaveFileClick { get; set; }
         public ICommand Menu_SaveAllFileClick { get; set; }
 
-        private ObservableCollection<DocItem> docList;
+        private ObservableCollection<TextEditorExViewModel> docList;
 
-        public ObservableCollection<DocItem> DocList
+        public ObservableCollection<TextEditorExViewModel> DocList
         {
             get { return docList; }
             set { docList = value; OnPropertyChanged(); }
         }
 
-        private DocItem selectedItem;
+        private TextEditorExViewModel selectedItem;
 
-        public DocItem SelectedItem
+        public TextEditorExViewModel SelectedItem
         {
             get { return selectedItem; }
             set { selectedItem = value; OnPropertyChanged(); }
         }
         public MainViewModel()
         {
-            DocList = new ObservableCollection<DocItem>();
+            DocList = new ObservableCollection<TextEditorExViewModel>();
             initCommand();
 
         }
@@ -59,7 +59,7 @@ namespace NotePadMinus.ViewModel
         }
         private void DoOpenNewFile()
         {
-            DocItem item = new DocItem();
+            TextEditorExViewModel item = new TextEditorExViewModel();
             DocList.Add(item);
             SelectedItem = item;
 
@@ -70,8 +70,8 @@ namespace NotePadMinus.ViewModel
             var dlg = new OpenFileDialog();
             if (dlg.ShowDialog().GetValueOrDefault())
             {
-                DocItem item = new DocItem();
-                item.LoadDoc(dlg.FileName);
+                TextEditorExViewModel item = new TextEditorExViewModel();
+                item.LoadDocument(dlg.FileName);
                 DocList.Add(item);
                 SelectedItem = item;
             }
@@ -79,6 +79,8 @@ namespace NotePadMinus.ViewModel
 
         private void DoCloseFile()
         {
+            if (SelectedItem == null)
+                return;
             if(SelectedItem.IsDirty)
             {
                 MessageBoxResult ret;
@@ -101,22 +103,22 @@ namespace NotePadMinus.ViewModel
                 }
                 
             }
-            DocItem RemoveItem = SelectedItem;
-            DocList.Remove(RemoveItem);
+
+            DocList.Remove(SelectedItem); 
             SelectedItem = DocList.FirstOrDefault();
             return;
         }
 
         private void DoSaveFile()
         {
-            SelectedItem.SaveDoc();
+            SelectedItem.SaveDocument();
         }
 
         private void DoSaveAllFile()
         {
             foreach (var item in DocList)
             {
-                item.SaveDoc();
+                item.SaveDocument();
             }
         }
 

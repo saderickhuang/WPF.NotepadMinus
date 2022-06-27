@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotePadMinus.ViewModel"
-        xmlns:controls="clr-namespace:NotePadMinus.Controls" xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:local1="clr-namespace:NotePadMinus.Behaviors"
+        xmlns:controls="clr-namespace:NotePadMinus.Controls" xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d"
         Title="NotepadMinus" Height="600" Width="800" WindowStartupLocation="CenterScreen"
         Icon="/Resources/Icons/NotepadMinus.png"
@@ -45,6 +45,21 @@
                 <MenuItem Header="Exit" InputGestureText="Alt+F4" ToolTip="Exit">
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo" InputGestureText="Ctrl+Z"  Command="Undo">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/Icons/undo.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Redo" InputGestureText="Ctrl+Y"  Command="Redo">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/Icons/redo.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="View">
+
+            </MenuItem>
         </Menu>
         <DockPanel Grid.Row="1">
             <ToolBarTray DockPanel.Dock="Top">
@@ -55,13 +70,13 @@
                     <controls:ToolbarButton Command="{Binding Menu_SaveAllFileClick}" Icon="/Resources/Icons/saveAll.png" Cursor="Hand" Margin="4,0,4,0"/>
                 </ToolBar>
                 <ToolBar>
+                    <controls:ToolbarButton Command="Undo" Icon="/Resources/Icons/undo.png"  Margin="4,0,4,0"/>
+                    <controls:ToolbarButton Command="Redo" Icon="/Resources/Icons/redo.png"  Margin="4,0,4,0"/>
+                </ToolBar>
+                <ToolBar>
                     <Button Command="Cut" Content="Cut" />
                     <Button Command="Copy" Content="Copy" />
                     <Button Command="Paste" Content="Paste" />
-                </ToolBar>
-                <ToolBar>
-                    <Button Command="Undo" Content="Undo" />
-                    <Button Command="Redo" Content="Redo" />
                 </ToolBar>
             </ToolBarTray>
         </DockPanel>
@@ -89,43 +104,72 @@
                         </Button>
                     </StackPanel>
                     <DataTemplate.Triggers>
-                        <!--<MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition
-                            </MultiDataTrigger.Conditions>
-                        </MultiDataTrigger>-->
                         <DataTrigger Binding="{Binding FilePath}" Value="{x:Null}">
                             <Setter TargetName="Img" Property="Source" Value="/Resources/Icons/unsaved.png"/>
                         </DataTrigger>
-                        
                         <DataTrigger Binding="{Binding IsDirty}" Value="True">
                             <Setter TargetName="Img" Property="Source" Value="/Resources/Icons/unsaved.png"/>
                         </DataTrigger>
-                        
-                        
                     </DataTemplate.Triggers>
-                    
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <Grid>
-                        <avalonEdit:TextEditor Name="avEditor"
+                        <Grid.Resources>
+                            <avalonEdit:TextEditorOptions x:Key="TextEditOptions" />
+                        </Grid.Resources>
+                        <controls:TextEditorEx x:Name="avEditor"
                                 Background="White"
                                 Foreground="Black"
                                 LineNumbersForeground="Black"
                                 ShowLineNumbers="{Binding ShowLineNumbers, UpdateSourceTrigger=PropertyChanged}"
                                 IsModified="{Binding Path=IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 SyntaxHighlighting="{Binding HighlightingDefinition, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                Document="{Binding Document, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        </avalonEdit:TextEditor>
+                                Document="{Binding Document, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                Column="{Binding SynchronizedColumn,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                Line="{Binding SynchronizedLine,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                FontSize="{Binding SynchronizedFontSize, UpdateSourceTrigger=PropertyChanged}"
+                                FontFamily="{Binding SynchronizedFontFamily, UpdateSourceTrigger=PropertyChanged}"
+                                Options="{Binding TextEditorOptionsSetting, FallbackValue={StaticResource TextEditOptions}}"
+                                >
+                        </controls:TextEditorEx>
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
         <StatusBar Grid.Row="4" VerticalAlignment="Bottom">
             <StatusBarItem >
-                <TextBlock Name="lblCursorPosition" Text="Status"/>
+                <TextBlock
+						Margin="3,0,3,0"
+						Text="Ln:"
+						ToolTip="Current Line">
+						<TextBlock Text="{Binding SelectedItem.SynchronizedLine, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+					</TextBlock>
+            </StatusBarItem>
+            
+            <StatusBarItem >
+                <TextBlock
+						Margin="3,0,3,0"
+						Text="Col:"
+						ToolTip="Current Col">
+						<TextBlock Text="{Binding SelectedItem.SynchronizedColumn, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+					</TextBlock>
+            </StatusBarItem>
+            <Separator></Separator>
+            <StatusBarItem >
+                <TextBlock
+						Margin="3,0,3,0"
+						Text="Lengh:">
+						<TextBlock Text="{Binding SelectedItem.Document.TextLength, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+					</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem >
+                <TextBlock
+						Margin="3,0,3,0"
+						Text="Lines:">
+						<TextBlock Text="{Binding SelectedItem.Document.LineCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+					</TextBlock>
             </StatusBarItem>
         </StatusBar>
     </Grid>

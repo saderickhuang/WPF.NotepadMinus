@@ -17,8 +17,10 @@
 	  <None Remove="Resources\Icons\NotepadMinus.png" />
 	  <None Remove="Resources\Icons\openFile.png" />
 	  <None Remove="Resources\Icons\paste.png" />
+	  <None Remove="Resources\Icons\redo.png" />
 	  <None Remove="Resources\Icons\saveAll.png" />
 	  <None Remove="Resources\Icons\saved.png" />
+	  <None Remove="Resources\Icons\undo.png" />
 	  <None Remove="Resources\Icons\unsaved.png" />
 	  <None Remove="Resources\newfile.png" />
 	</ItemGroup>
@@ -61,15 +63,25 @@
 	  <Resource Include="Resources\Icons\paste.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
+	  <Resource Include="Resources\Icons\redo.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	  <Resource Include="Resources\Icons\saveAll.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	  <Resource Include="Resources\Icons\saved.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
+	  <Resource Include="Resources\Icons\undo.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	  <Resource Include="Resources\Icons\unsaved.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Behaviors\" />
 	</ItemGroup>
 
 

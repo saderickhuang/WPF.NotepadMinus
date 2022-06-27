@@ -19,6 +19,7 @@ namespace NotePadMinus.ViewModel
 
             //注册到容器中
             _container.Register<MainViewModel>();
+            _container.Register<TextEditorExViewModel>();
         }
 
         /// <summary>
@@ -33,5 +34,14 @@ namespace NotePadMinus.ViewModel
             }
         }
 
+
+        public TextEditorExViewModel TextEditorExViewModel
+        {
+            get
+            {
+                //通过容器获取实例对象
+                return _container.Resolve<TextEditorExViewModel>();
+            }
+        }
     }
 }
